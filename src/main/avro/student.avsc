@@ -1,0 +1,13 @@
+{
+    "namespace": "com.caselchen.flink",
+     "type": "record",
+     "name": "Student",
+     "fields":[
+         {
+            "name": "name", "type": "string"
+         },
+         {
+            "name": "age",  "type": ["int", "null"]
+         }
+     ]
+}
