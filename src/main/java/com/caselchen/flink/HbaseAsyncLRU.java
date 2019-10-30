@@ -68,6 +68,15 @@ public class HbaseAsyncLRU extends RichAsyncFunction<String, String> {
     }
 
     @Override
+    public void close() throws Exception {
+        timerTask.cancel();
+        timer.cancel();
+        cache.cleanUp();
+        hBaseClient.flush();
+        hBaseClient.shutdown();
+    }
+
+    @Override
     public synchronized void asyncInvoke(String input, ResultFuture<String> resultFuture) throws Exception {
         System.out.println("===> asyncInvoke()... <===");
         String value = cache.getIfPresent(input);
