@@ -1,11 +1,7 @@
 package com.caselchen.flink;
 
-import org.apache.flink.api.common.typeinfo.Types;
-import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.streaming.api.operators.ProcessOperator;
-import org.apache.flink.streaming.api.operators.StreamFlatMap;
 import org.apache.flink.streaming.runtime.streamrecord.StreamRecord;
-import org.apache.flink.streaming.util.KeyedOneInputStreamOperatorTestHarness;
 import org.apache.flink.streaming.util.OneInputStreamOperatorTestHarness;
 import org.apache.flink.util.OutputTag;
 import org.junit.Assert;
@@ -20,16 +16,14 @@ import java.util.Queue;
 import static org.hamcrest.Matchers.containsInRelativeOrder;
 
 public class AlarmFunctionTest {
+
     private OneInputStreamOperatorTestHarness<Integer, Integer> testHarness;
     private AlarmFunction alarmFunction;
-
-    private OutputTag<Integer> alarmTag = new OutputTag<Integer>("alarm"){};
 
     @Before
     public void setupTestHarness() throws Exception {
         //instantiate user-defined function
         alarmFunction = new AlarmFunction();
-        alarmFunction.setAlarmTag(alarmTag);
 
         // wrap user defined function into a the corresponding operator
         testHarness = new OneInputStreamOperatorTestHarness<Integer, Integer>(new ProcessOperator<>(alarmFunction));
@@ -50,6 +44,7 @@ public class AlarmFunctionTest {
         testHarness.processElement(16, 103L);
 
         //retrieve list of records emitted to a specific side output for assertions (ProcessFunction only)
+        OutputTag<Integer> alarmTag = new OutputTag<Integer>("alarm"){};
         Queue alarmQueue = testHarness.getSideOutput(alarmTag);
         List<Integer> alarmValues = new ArrayList<>();
         Iterator alarmIt = alarmQueue.iterator();
