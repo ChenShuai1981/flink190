@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.caselchen.flink.UpperStringFlatMapFunctionIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.399 sec

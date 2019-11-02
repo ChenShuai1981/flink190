@@ -1,0 +1,16 @@
+com/caselchen/flink/MyDistinctFlatMapFunctionTest$1.class
+com/caselchen/flink/AlarmFunctionTest.class
+com/caselchen/flink/MyDistinctFlatMapFunctionIntegrationTest$CollectSink.class
+com/caselchen/flink/UpperStringFlatMapFunctionIntegrationTest$1.class
+com/caselchen/flink/UpperStringFunctionTest.class
+com/caselchen/flink/UpperStringFlatMapFunctionIntegrationTest$CollectSink.class
+com/caselchen/flink/AlarmFunctionIntegrationTest$1.class
+com/caselchen/flink/AlarmFunctionIntegrationTest$CollectAlarmSink.class
+com/caselchen/flink/AlarmFunctionTest$1.class
+com/caselchen/flink/AlarmFunctionIntegrationTest.class
+com/caselchen/flink/MyDistinctFlatMapFunctionTest.class
+com/caselchen/flink/MyDistinctFlatMapFunctionIntegrationTest$1.class
+com/caselchen/flink/UpperStringFlatMapFunctionIntegrationTest.class
+com/caselchen/flink/MyDistinctFlatMapFunctionIntegrationTest.class
+com/caselchen/flink/UpperStringFlatMapFunctionTest.class
+com/caselchen/flink/AlarmFunctionIntegrationTest$CollectSink.class
