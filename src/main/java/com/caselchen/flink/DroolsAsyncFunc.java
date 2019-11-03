@@ -15,6 +15,7 @@ public class DroolsAsyncFunc extends RichAsyncFunction<Person, String> {
     private KieSession ks;
 
     public DroolsAsyncFunc(String droolsFilePath) {
+        super();
         this.droolsFilePath = droolsFilePath;
     }
 
