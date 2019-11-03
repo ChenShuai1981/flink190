@@ -41,10 +41,14 @@ public class UpperStringFlatMapFunctionIntegrationTest {
         // execute
         env.execute();
 
+<<<<<<< HEAD
 //        Thread.sleep(1000);
 
         // verify your results
         System.out.println(CollectSink.values);
+=======
+        // verify your results
+>>>>>>> c790f7cc5731e36ec726bc5d852a34f6589aef3a
         assertTrue(CollectSink.values.containsAll(Arrays.asList("ABC", "AZD", "BAT")));
     }
 
