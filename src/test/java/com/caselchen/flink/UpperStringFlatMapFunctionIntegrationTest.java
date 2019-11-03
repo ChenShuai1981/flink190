@@ -24,7 +24,7 @@ public class UpperStringFlatMapFunctionIntegrationTest {
                             .build());
 
     @Test
-    public void testIncrementPipeline() throws Exception {
+    public void testUpperPipeline() throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         // configure your test environment
@@ -40,6 +40,8 @@ public class UpperStringFlatMapFunctionIntegrationTest {
 
         // execute
         env.execute();
+
+        System.out.println(CollectSink.values);
 
         // verify your results
         assertTrue(CollectSink.values.containsAll(Arrays.asList("ABC", "AZD", "BAT")));
