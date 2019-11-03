@@ -45,7 +45,7 @@ MySqlAsyncIOJob
 
 ###
 kafka维表关联：广播方式
-https://mp.weixin.qq.com/s?__biz=MzU5MTc1NDUyOA==&mid=2247483931&idx=1&sn=a1d4cd11e5d92128247629b269b120a8&chksm=fe2b6654c95cef42af946a2acc939aad89dfa0caccb50e001d870e325ca73b7be533fdcc83b0&token=1552048386&lang=zh_CN&scene=21#wechat_redirect
+https://mp.weixin.qq.com/s/WyR_sGu-JNCJFkm2fAZ-PA
 KafkaBroadcastRuleJob
 CustomerPurchaseBehaviorTracker
 

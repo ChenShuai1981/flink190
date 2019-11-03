@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="28110f21-3047-49e8-acfb-4d26c6d35dcd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/caselchen/flink/UpperStringFlatMapFunctionIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/caselchen/flink/UpperStringFlatMapFunctionIntegrationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,7 +29,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="215">
@@ -40,12 +38,12 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="168">
-                <caret line="7" column="14" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
+              <first_editor relative-caret-position="207">
+                <caret line="47" column="49" selection-start-line="47" selection-start-column="49" selection-end-line="47" selection-end-column="49" />
               </first_editor>
               <second_editor />
             </state>
@@ -176,9 +174,9 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/caselchen/flink/ConnectionFactory.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/caselchen/flink/CustomizeAsyncFunctionJob.java" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/test/java/com/caselchen/flink/UpperStringFlatMapFunctionIntegrationTest.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -347,7 +345,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1572624409802</updated>
-      <workItem from="1572624411417" duration="26151000" />
+      <workItem from="1572624411417" duration="26429000" />
     </task>
     <servers />
   </component>
@@ -372,7 +370,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26151000" />
+    <option name="totallyTimeSpent" value="26429000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
@@ -381,12 +379,12 @@
       <window_info id="UI Designer" order="0" />
       <window_info id="Favorites" order="1" side_tool="true" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="3" visible="true" weight="0.24963397" />
+      <window_info content_ui="combo" id="Project" order="3" weight="0.24963397" />
       <window_info id="Structure" order="4" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="1" />
       <window_info anchor="bottom" id="SBT Console" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="3" visible="true" weight="0.47736627" />
+      <window_info anchor="bottom" id="Terminal" order="3" weight="0.47736627" />
       <window_info anchor="bottom" id="Database Changes" order="4" />
       <window_info anchor="bottom" id="Java Enterprise" order="5" />
       <window_info anchor="bottom" id="Event Log" order="6" side_tool="true" />
@@ -411,19 +409,19 @@
       <window_info id="UI Designer" order="0" />
       <window_info id="Favorites" order="1" side_tool="true" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="3" weight="0.24963397" />
+      <window_info content_ui="combo" id="Project" order="3" visible="true" weight="0.24963397" />
       <window_info id="Structure" order="4" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="1" />
       <window_info anchor="bottom" id="SBT Console" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="3" weight="0.47736627" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.47736627" />
       <window_info anchor="bottom" id="Database Changes" order="4" />
       <window_info anchor="bottom" id="Java Enterprise" order="5" />
       <window_info anchor="bottom" id="Event Log" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Sequence" order="7" />
       <window_info anchor="bottom" id="Message" order="8" />
       <window_info anchor="bottom" id="Find" order="9" weight="0.32921812" />
-      <window_info anchor="bottom" id="Run" order="10" visible="true" weight="0.46502057" />
+      <window_info anchor="bottom" id="Run" order="10" weight="0.46502057" />
       <window_info anchor="bottom" id="Debug" order="11" weight="0.5349794" />
       <window_info anchor="bottom" id="Cvs" order="12" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="13" weight="0.4" />
@@ -918,16 +916,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="168">
-            <caret line="7" column="14" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/caselchen/flink/KafkaTuple4StringSchema.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
@@ -946,6 +934,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="215">
           <caret line="52" column="8" selection-start-line="52" selection-start-column="8" selection-end-line="52" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="207">
+            <caret line="47" column="49" selection-start-line="47" selection-start-column="49" selection-end-line="47" selection-end-column="49" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
