@@ -1,6 +1,5 @@
 package com.caselchen.flink;
 
-import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.runtime.testutils.MiniClusterResourceConfiguration;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
