@@ -93,7 +93,7 @@ public class HotItems {
 //        DataStream<ItemViewCount> windowedData = pvData
 //                .keyBy("itemId")
 //                .timeWindow(Time.minutes(60), Time.minutes(5))
-//                .aggregate(new CountAgg(), new WindowResultFunction());
+//                .aggregate(new CountAgg(), new MyWindowFunction());
 //
 //        DataStream<String> topItems = windowedData
 //                .keyBy("windowEnd")

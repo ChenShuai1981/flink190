@@ -2,13 +2,12 @@ package com.caselchen.flink;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.ImmutableList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.apache.commons.collections.ListUtils;
 import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -29,7 +28,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * 参考 https://blog.csdn.net/qq_22222499/article/details/94997611
@@ -55,13 +53,6 @@ public class WatermarkTest {
         env.getConfig().setAutoWatermarkInterval(5000);
         env.enableCheckpointing(5000);
         env.setParallelism(1);
-
-//        Properties kafkaConfig = new Properties();
-//        kafkaConfig.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-//        kafkaConfig.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "test");
-//        FlinkKafkaConsumer consumer = new FlinkKafkaConsumer("watermark-test", new SimpleStringSchema(), kafkaConfig);
-//        consumer.assignTimestampsAndWatermarks(new MyWatermarkAssigner());
-//        DataStream<String> inputStream = env.addSource(consumer);
 
         List<WordData> wordDataList = Arrays.asList(
                 new WordData("aa", 1562419080000L),
@@ -90,7 +81,7 @@ public class WatermarkTest {
                 .window(TumblingEventTimeWindows.of(Time.seconds(10)))
                 .allowedLateness(Time.seconds(2))   // 最多允许迟到2s
                 .trigger(CountTrigger.of(1))
-                .process(new CountFunction())
+                .reduce(new MyReduceFunction(), new MyWindowFunction())
                 .print();
 
         env.execute("WatermarkTest");
@@ -103,7 +94,7 @@ public class WatermarkTest {
     static class WordInput implements Serializable {
         private String word;
         private long createTime;
-        private int count;
+        private long count;
 
         @Override
         public boolean equals(Object obj) {
@@ -113,38 +104,6 @@ public class WatermarkTest {
             WordInput input = (WordInput) obj;
 
             return this.word.equals(input.getWord()) && this.createTime == input.getCreateTime();
-        }
-    }
-
-    static class CountFunction extends ProcessWindowFunction<WordInput, WordCount, String, TimeWindow> {
-
-        private List<WordInput> lastWordInputs = null;
-
-        @Override
-        public void process(String key, Context context, Iterable<WordInput> elements, Collector<WordCount> out) throws Exception {
-            String word = key;
-
-            long eventTime = 0L;
-            List<WordInput> diff = null;
-            if (lastWordInputs == null) {
-                diff = ImmutableList.copyOf(elements);
-            } else {
-                List<WordInput> wordInputs = ImmutableList.copyOf(elements);
-                diff = ListUtils.subtract(lastWordInputs, wordInputs);
-                lastWordInputs = wordInputs;
-            }
-            for (WordInput wordInput : diff) {
-                eventTime = wordInput.getCreateTime();
-            }
-
-            long count = StreamSupport.stream(elements.spliterator(), false).count();
-            long watermark = context.currentWatermark();
-            long processingTime = context.currentProcessingTime();
-            TimeWindow tw = context.window();
-            long windowStart = tw.getStart();
-            long windowEnd = tw.getEnd();
-            WordCount wordOutput = WordCount.of(word, count, watermark, windowStart, windowEnd, processingTime, eventTime);
-            out.collect(wordOutput);
         }
     }
 
@@ -185,6 +144,34 @@ public class WatermarkTest {
         @Override
         public String toString() {
             return String.join("\t", new String[]{word, format(watermark), format(windowStart), format(windowEnd), format(processingTime), format(eventTime), String.valueOf(count)});
+        }
+    }
+
+    static class MyReduceFunction implements ReduceFunction<WordInput> {
+
+        @Override
+        public WordInput reduce(WordInput value1, WordInput value2) throws Exception {
+            return new WordInput(value1.getWord(), value2.getCreateTime(), value1.getCount() + value2.getCount());
+        }
+    }
+
+    static class MyWindowFunction extends ProcessWindowFunction<WordInput, WordCount, String, TimeWindow> {
+
+        private List<WordInput> lastWordInputs = null;
+        
+        @Override
+        public void process(String key, Context context, Iterable<WordInput> elements, Collector<WordCount> out) throws Exception {
+            WordInput acc = elements.iterator().next();
+            String word = acc.getWord();
+            long eventTime = acc.getCreateTime();
+            long count = elements.iterator().next().getCount();
+            long watermark = context.currentWatermark();
+            long processingTime = context.currentProcessingTime();
+            TimeWindow tw = context.window();
+            long windowStart = tw.getStart();
+            long windowEnd = tw.getEnd();
+            WordCount wordOutput = WordCount.of(word, count, watermark, windowStart, windowEnd, processingTime, eventTime);
+            out.collect(wordOutput);
         }
     }
 
