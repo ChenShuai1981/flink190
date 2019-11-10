@@ -2,23 +2,22 @@ package com.caselchen.flink;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.ImmutableList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.apache.flink.api.common.functions.AggregateFunction;
+import org.apache.commons.collections.ListUtils;
 import org.apache.flink.api.common.functions.MapFunction;
-import org.apache.flink.api.common.typeinfo.Types;
-import org.apache.flink.api.java.tuple.Tuple;
-import org.apache.flink.api.java.tuple.Tuple1;
-import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.AssignerWithPunctuatedWatermarks;
-import org.apache.flink.streaming.api.functions.windowing.WindowFunction;
+import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;
 import org.apache.flink.streaming.api.watermark.Watermark;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
+import org.apache.flink.streaming.api.windowing.triggers.CountTrigger;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
 
@@ -30,8 +29,24 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
-// https://blog.csdn.net/qq_22222499/article/details/94997611
+/**
+ * 参考 https://blog.csdn.net/qq_22222499/article/details/94997611
+ *
+ * 输出结果示范
+ * word,watermark,windowStart,windowEnd,processingTime,eventTime,count
+ * ===================================================================
+ * aa	00:52:47	21:18:00	21:18:10	15:41:54	21:18:00	1
+ * aa	21:17:54	21:18:00	21:18:10	15:41:54	21:18:05	2
+ * bb	21:17:59	21:18:10	21:18:20	15:41:54	21:18:10	1
+ * bb	21:18:04	21:18:00	21:18:10	15:41:54	21:18:09	1
+ * aa	21:18:04	21:18:10	21:18:20	15:41:54	21:18:16	1
+ * bb	21:18:10	21:18:10	21:18:20	15:41:54	21:18:17	2
+ * aa	21:18:11	21:18:00	21:18:10	15:41:54	21:18:00	3
+ * bb	21:18:11	21:18:00	21:18:10	15:41:54	21:18:00	2
+ * bb	21:18:11	21:18:10	21:18:20	15:41:54	21:18:18	3
+ */
 public class WatermarkTest {
 
     public static void main(String[] args) throws Exception {
@@ -62,54 +77,103 @@ public class WatermarkTest {
         );
 
         List<String> wordDataJsonList = wordDataList.stream().map(wd -> JSON.toJSONString(wd)).collect(Collectors.toList());
-        DataStream<String> inputStream = env.fromCollection(wordDataJsonList);
+        DataStream<String> stringStream = env.fromCollection(wordDataJsonList);
 
-        inputStream
+        System.out.println(String.join(",", new String[]{"word", "watermark", "windowStart", "windowEnd", "processingTime", "eventTime", "count"}));
+        System.out.println("============================================================================================================================");
+
+        DataStream<WordInput> wordInputStream = stringStream
                 .assignTimestampsAndWatermarks(new MyWatermarkAssigner())
-                .map(new MyMapFuction())
-                .returns(Types.TUPLE(Types.STRING, Types.INT))
-                .keyBy(0)
+                .map(new MyMapFuction());
+
+        wordInputStream.keyBy(wordInput -> wordInput.getWord())
                 .window(TumblingEventTimeWindows.of(Time.seconds(10)))
                 .allowedLateness(Time.seconds(2))   // 最多允许迟到2s
-                .aggregate(new CountAgg(), new WindowResultFunction())
-//                .sum(1)
+                .trigger(CountTrigger.of(1))
+                .process(new CountFunction())
                 .print();
 
         env.execute("WatermarkTest");
     }
 
-    static class WindowResultFunction implements WindowFunction<Long, WordCount, Tuple, TimeWindow> {
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
+    static class WordInput implements Serializable {
+        private String word;
+        private long createTime;
+        private int count;
 
         @Override
-        public void apply(
-                Tuple key,  // 窗口的主键，即 itemId
-                TimeWindow window,  // 窗口
-                Iterable<Long> aggregateResult, // 聚合函数的结果，即 count 值
-                Collector<WordCount> collector  // 输出类型为 ItemViewCount
-        ) throws Exception {
-            String word = ((Tuple1<String>) key).f0;
-            Long count = aggregateResult.iterator().next();
-            collector.collect(WordCount.of(word, window.getStart(), window.getEnd(), count));
+        public boolean equals(Object obj) {
+            if (!(obj instanceof WordInput)) {
+                return false;
+            }
+            WordInput input = (WordInput) obj;
+
+            return this.word.equals(input.getWord()) && this.createTime == input.getCreateTime();
+        }
+    }
+
+    static class CountFunction extends ProcessWindowFunction<WordInput, WordCount, String, TimeWindow> {
+
+        private List<WordInput> lastWordInputs = null;
+
+        @Override
+        public void process(String key, Context context, Iterable<WordInput> elements, Collector<WordCount> out) throws Exception {
+            String word = key;
+
+            long eventTime = 0L;
+            List<WordInput> diff = null;
+            if (lastWordInputs == null) {
+                diff = ImmutableList.copyOf(elements);
+            } else {
+                List<WordInput> wordInputs = ImmutableList.copyOf(elements);
+                diff = ListUtils.subtract(lastWordInputs, wordInputs);
+                lastWordInputs = wordInputs;
+            }
+            for (WordInput wordInput : diff) {
+                eventTime = wordInput.getCreateTime();
+            }
+
+            long count = StreamSupport.stream(elements.spliterator(), false).count();
+            long watermark = context.currentWatermark();
+            long processingTime = context.currentProcessingTime();
+            TimeWindow tw = context.window();
+            long windowStart = tw.getStart();
+            long windowEnd = tw.getEnd();
+            WordCount wordOutput = WordCount.of(word, count, watermark, windowStart, windowEnd, processingTime, eventTime);
+            out.collect(wordOutput);
         }
     }
 
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
     static class WordCount {
 
         private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-        public String word;     // 商品ID
-        public long windowStart;  // 窗口开始时间戳
-        public long windowEnd;  // 窗口结束时间戳
-        public long count;  // 商品的点击量
+        private String word;     // 商品ID
+        private long watermark;  // 水印
+        private long windowStart;  // 窗口开始时间戳
+        private long windowEnd;  // 窗口结束时间戳
+        private long count;  // 商品的点击量
+        private long processingTime; // 处理时间
+        private long eventTime; // 事件时间
 
-        public static WordCount of(String word, long windowStart, long windowEnd, long viewCount) {
-            WordCount result = new WordCount();
-            result.word = word;
-            result.windowStart = windowStart;
-            result.windowEnd = windowEnd;
-            result.count = viewCount;
-            return result;
+        public static WordCount of(String word, long count, long watermark, long windowStart, long windowEnd, long processingTime, long eventTime) {
+            WordCount wc = new WordCount();
+            wc.word = word;
+            wc.windowStart = windowStart;
+            wc.windowEnd = windowEnd;
+            wc.watermark = watermark;
+            wc.processingTime = processingTime;
+            wc.count = count;
+            wc.eventTime = eventTime;
+            return wc;
         }
 
         private String format(long millis) {
@@ -120,40 +184,17 @@ public class WatermarkTest {
 
         @Override
         public String toString() {
-            return String.join("\t", new String[]{word, format(windowStart), format(windowEnd), String.valueOf(count)});
+            return String.join("\t", new String[]{word, format(watermark), format(windowStart), format(windowEnd), format(processingTime), format(eventTime), String.valueOf(count)});
         }
     }
 
-    static class CountAgg implements AggregateFunction<Tuple2<String, Integer>, Long, Long> {
+    static class MyMapFuction implements MapFunction<String, WordInput> {
 
         @Override
-        public Long createAccumulator() {
-            return 0L;
-        }
-
-        @Override
-        public Long add(Tuple2<String, Integer> tuple2, Long acc) {
-            return acc + 1;
-        }
-
-        @Override
-        public Long getResult(Long acc) {
-            return acc;
-        }
-
-        @Override
-        public Long merge(Long acc1, Long acc2) {
-            return acc1 + acc2;
-        }
-    }
-
-    static class MyMapFuction implements MapFunction<String, Tuple2> {
-
-        @Override
-        public Tuple2 map(String str) throws Exception {
-            String value = JSONObject.parseObject(str).getString("word");
-//            System.out.println("value is " + value);
-            return new Tuple2<>(value, 1);
+        public WordInput map(String jsonString) throws Exception {
+            WordInput wordInput = JSON.parseObject(jsonString, WordInput.class);
+            wordInput.setCount(1);
+            return wordInput;
         }
     }
 
@@ -168,7 +209,7 @@ public class WatermarkTest {
             if (element != null) {
                 try {
                     createtime = JSONObject.parseObject((String) element).getLong("createTime");
-                    System.out.println("timestamp -> " + createtime);
+//                    System.out.println("timestamp -> " + createtime);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -180,7 +221,7 @@ public class WatermarkTest {
         @javax.annotation.Nullable
         @Override
         public Watermark checkAndGetNextWatermark(Object lastElement, long extractedTimestamp) {
-            System.out.println("currentWatermark >>>>> " + (currentMaxTimestamp - maxOutOfOrderness));
+//            System.out.println("currentWatermark >>>>> " + (currentMaxTimestamp - maxOutOfOrderness));
             return new Watermark(currentMaxTimestamp - maxOutOfOrderness);
         }
     }
