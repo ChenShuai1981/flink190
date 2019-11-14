@@ -1,0 +1,320 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< com.caselchen.flink:flink190 >--------------------
+[INFO] Building Flink Quickstart Job 1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+Downloading from confluent: http://packages.confluent.io/maven/com/fasterxml/jackson/core/jackson-databind/maven-metadata.xml
+Downloading from apache.snapshots: https://repository.apache.org/content/repositories/snapshots/com/fasterxml/jackson/core/jackson-databind/maven-metadata.xml
+Downloading from nexus-aliyun: http://maven.aliyun.com/nexus/content/groups/public/com/fasterxml/jackson/core/jackson-databind/maven-metadata.xml
+Progress (1): 1.6/4.4 kBProgress (1): 3.6/4.4 kBProgress (1): 4.4 kB                        Downloaded from nexus-aliyun: http://maven.aliyun.com/nexus/content/groups/public/com/fasterxml/jackson/core/jackson-databind/maven-metadata.xml (4.4 kB at 549 B/s)
+Downloading from apache.snapshots: https://repository.apache.org/content/repositories/snapshots/org/apache/thrift/libthrift/maven-metadata.xml
+Downloading from confluent: http://packages.confluent.io/maven/org/apache/thrift/libthrift/maven-metadata.xml
+Downloading from nexus-aliyun: http://maven.aliyun.com/nexus/content/groups/public/org/apache/thrift/libthrift/maven-metadata.xml
+Progress (1): 684 B                   Downloaded from nexus-aliyun: http://maven.aliyun.com/nexus/content/groups/public/org/apache/thrift/libthrift/maven-metadata.xml (684 B at 206 B/s)
+Downloading from nexus-aliyun: http://maven.aliyun.com/nexus/content/groups/public/org/jetbrains/annotations/maven-metadata.xml
+Downloading from confluent: http://packages.confluent.io/maven/org/jetbrains/annotations/maven-metadata.xml
+Progress (1): 555 B                   Downloaded from nexus-aliyun: http://maven.aliyun.com/nexus/content/groups/public/org/jetbrains/annotations/maven-metadata.xml (555 B at 211 B/s)
+Downloading from confluent: http://packages.confluent.io/maven/org/jetbrains/annotations/18.0.0/annotations-18.0.0.pom
+Downloading from nexus-aliyun: http://maven.aliyun.com/nexus/content/groups/public/org/jetbrains/annotations/18.0.0/annotations-18.0.0.pom
+Progress (1): 1.3 kB                    Downloaded from nexus-aliyun: http://maven.aliyun.com/nexus/content/groups/public/org/jetbrains/annotations/18.0.0/annotations-18.0.0.pom (1.3 kB at 640 B/s)
+Downloading from apache.snapshots: https://repository.apache.org/content/repositories/snapshots/org/slf4j/slf4j-api/maven-metadata.xml
+Downloading from nexus-aliyun: http://maven.aliyun.com/nexus/content/groups/public/org/slf4j/slf4j-api/maven-metadata.xml
+Downloading from sonatype-nexus-snapshots: https://oss.sonatype.org/content/repositories/snapshots/org/slf4j/slf4j-api/maven-metadata.xml
+Downloading from confluent: http://packages.confluent.io/maven/org/slf4j/slf4j-api/maven-metadata.xml
+Progress (1): 1.6/2.6 kBProgress (1): 2.6 kB                        [WARNING] Could not validate integrity of download from http://maven.aliyun.com/nexus/content/groups/public/org/slf4j/slf4j-api/maven-metadata.xml: Checksum validation failed, no checksums available
+[WARNING] Checksum validation failed, no checksums available from nexus-aliyun for http://maven.aliyun.com/nexus/content/groups/public/org/slf4j/slf4j-api/maven-metadata.xml
+Downloaded from nexus-aliyun: http://maven.aliyun.com/nexus/content/groups/public/org/slf4j/slf4j-api/maven-metadata.xml (2.6 kB at 692 B/s)
+Downloading from nexus-aliyun: http://maven.aliyun.com/nexus/content/groups/public/org/jetbrains/annotations/18.0.0/annotations-18.0.0.jar
+Progress (1): 1.6/24 kBProgress (1): 3.6/24 kBProgress (1): 5.7/24 kBProgress (1): 8.2/24 kBProgress (1): 12/24 kB Progress (1): 16/24 kBProgress (1): 20/24 kBProgress (1): 24 kB                      Downloaded from nexus-aliyun: http://maven.aliyun.com/nexus/content/groups/public/org/jetbrains/annotations/18.0.0/annotations-18.0.0.jar (24 kB at 6.5 kB/s)
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ flink190 ---
+[INFO] com.caselchen.flink:flink190:jar:1.0-SNAPSHOT
+[INFO] +- org.projectlombok:lombok:jar:1.16.20:compile
+[INFO] +- com.fasterxml.jackson.core:jackson-databind:jar:2.10.0.pr3:compile
+[INFO] |  +- com.fasterxml.jackson.core:jackson-annotations:jar:2.10.0.pr3:compile
+[INFO] |  \- com.fasterxml.jackson.core:jackson-core:jar:2.10.0.pr3:compile
+[INFO] +- joda-time:joda-time:jar:2.10.1:compile
+[INFO] +- org.apache.flink:flink-queryable-state-runtime_2.11:jar:1.9.0:compile
+[INFO] |  \- org.apache.flink:force-shading:jar:1.9.0:compile
+[INFO] +- org.apache.flink:flink-runtime-web_2.11:jar:1.9.0:compile
+[INFO] |  +- org.apache.flink:flink-runtime_2.11:jar:1.9.0:compile
+[INFO] |  +- org.apache.flink:flink-clients_2.11:jar:1.9.0:compile
+[INFO] |  |  \- org.apache.flink:flink-optimizer_2.11:jar:1.9.0:compile
+[INFO] |  +- org.apache.flink:flink-shaded-netty:jar:4.1.32.Final-7.0:compile
+[INFO] |  +- org.apache.flink:flink-shaded-guava:jar:18.0-7.0:compile
+[INFO] |  +- org.apache.flink:flink-shaded-jackson:jar:2.9.8-7.0:compile
+[INFO] |  +- org.javassist:javassist:jar:3.19.0-GA:compile
+[INFO] |  +- org.slf4j:slf4j-api:jar:1.7.15:compile
+[INFO] |  \- com.google.code.findbugs:jsr305:jar:1.3.9:compile
+[INFO] +- org.apache.flink:flink-queryable-state-client-java:jar:1.9.0:compile
+[INFO] +- org.apache.flink:flink-json:jar:1.9.0:compile
+[INFO] +- org.apache.flink:flink-java:jar:1.9.0:compile
+[INFO] |  +- org.apache.flink:flink-core:jar:1.9.0:compile
+[INFO] |  |  +- org.apache.flink:flink-annotations:jar:1.9.0:compile
+[INFO] |  |  +- org.apache.flink:flink-metrics-core:jar:1.9.0:compile
+[INFO] |  |  +- com.esotericsoftware.kryo:kryo:jar:2.24.0:compile
+[INFO] |  |  |  +- com.esotericsoftware.minlog:minlog:jar:1.2:compile
+[INFO] |  |  |  \- org.objenesis:objenesis:jar:2.1:compile
+[INFO] |  |  \- commons-collections:commons-collections:jar:3.2.2:compile
+[INFO] |  +- org.apache.flink:flink-shaded-asm-6:jar:6.2.1-7.0:compile
+[INFO] |  +- org.apache.commons:commons-lang3:jar:3.3.2:compile
+[INFO] |  \- org.apache.commons:commons-math3:jar:3.5:compile
+[INFO] +- org.apache.flink:flink-streaming-java_2.11:jar:1.9.0:compile
+[INFO] +- org.apache.flink:flink-state-processor-api_2.11:jar:1.9.0:compile
+[INFO] +- org.apache.flink:flink-statebackend-rocksdb_2.11:jar:1.9.0:compile
+[INFO] |  \- com.data-artisans:frocksdbjni:jar:5.17.2-artisans-1.0:compile
+[INFO] +- org.apache.flink:flink-table-api-java:jar:1.9.0:compile
+[INFO] +- org.apache.flink:flink-table-common:jar:1.9.0:compile
+[INFO] +- org.apache.flink:flink-table-api-java-bridge_2.11:jar:1.9.0:compile
+[INFO] +- org.apache.flink:flink-table-planner_2.11:jar:1.9.0:compile
+[INFO] |  \- org.apache.flink:flink-table-api-scala-bridge_2.11:jar:1.9.0:compile
+[INFO] |     +- org.apache.flink:flink-scala_2.11:jar:1.9.0:compile
+[INFO] |     \- org.apache.flink:flink-streaming-scala_2.11:jar:1.9.0:compile
+[INFO] +- org.apache.flink:flink-table-planner-blink_2.11:jar:1.9.0:compile
+[INFO] |  +- org.apache.flink:flink-table-api-scala_2.11:jar:1.9.0:compile
+[INFO] |  |  +- org.scala-lang:scala-reflect:jar:2.11.12:compile
+[INFO] |  |  \- org.scala-lang:scala-compiler:jar:2.11.12:compile
+[INFO] |  |     +- org.scala-lang.modules:scala-xml_2.11:jar:1.0.5:compile
+[INFO] |  |     \- org.scala-lang.modules:scala-parser-combinators_2.11:jar:1.0.4:compile
+[INFO] |  +- org.apache.flink:flink-table-runtime-blink_2.11:jar:1.9.0:compile
+[INFO] |  |  +- org.codehaus.janino:janino:jar:3.0.9:compile
+[INFO] |  |  \- org.apache.calcite.avatica:avatica-core:jar:1.15.0:compile
+[INFO] |  \- org.reflections:reflections:jar:0.9.10:compile
+[INFO] +- org.apache.flink:flink-table-uber_2.11:jar:1.9.0:compile
+[INFO] |  \- org.apache.flink:flink-sql-parser:jar:1.9.0:compile
+[INFO] +- org.apache.flink:flink-connector-kafka_2.11:jar:1.9.0:compile
+[INFO] |  \- org.apache.flink:flink-connector-kafka-base_2.11:jar:1.9.0:compile
+[INFO] +- org.apache.flink:flink-metrics-dropwizard:jar:1.9.0:compile
+[INFO] |  \- io.dropwizard.metrics:metrics-core:jar:3.1.5:compile
+[INFO] +- org.apache.flink:flink-connector-hive_2.11:jar:1.9.0:compile
+[INFO] +- org.apache.flink:flink-hadoop-compatibility_2.11:jar:1.9.0:compile
+[INFO] +- org.apache.flink:flink-shaded-hadoop-2-uber:jar:2.8.3-8.0:compile
+[INFO] +- org.apache.hive:hive-metastore:jar:2.3.6:compile
+[INFO] |  +- org.apache.hive:hive-serde:jar:2.3.6:compile
+[INFO] |  |  +- org.apache.hive:hive-common:jar:2.3.6:compile
+[INFO] |  |  |  +- org.apache.hive:hive-storage-api:jar:2.4.0:compile
+[INFO] |  |  |  +- org.apache.orc:orc-core:jar:1.3.4:compile
+[INFO] |  |  |  |  \- io.airlift:aircompressor:jar:0.8:compile
+[INFO] |  |  |  |     \- io.airlift:slice:jar:0.29:compile
+[INFO] |  |  |  |        \- org.openjdk.jol:jol-core:jar:0.2:compile
+[INFO] |  |  |  +- org.eclipse.jetty.aggregate:jetty-all:jar:7.6.0.v20120127:compile
+[INFO] |  |  |  |  +- org.apache.geronimo.specs:geronimo-jta_1.1_spec:jar:1.1.1:compile
+[INFO] |  |  |  |  +- javax.mail:mail:jar:1.4.1:compile
+[INFO] |  |  |  |  +- javax.activation:activation:jar:1.1:compile
+[INFO] |  |  |  |  +- org.apache.geronimo.specs:geronimo-jaspic_1.0_spec:jar:1.0:compile
+[INFO] |  |  |  |  +- org.apache.geronimo.specs:geronimo-annotation_1.0_spec:jar:1.1.1:compile
+[INFO] |  |  |  |  \- asm:asm-commons:jar:3.1:compile
+[INFO] |  |  |  |     \- asm:asm-tree:jar:3.1:compile
+[INFO] |  |  |  |        \- asm:asm:jar:3.1:compile
+[INFO] |  |  |  +- org.eclipse.jetty.orbit:javax.servlet:jar:3.0.0.v201112011016:compile
+[INFO] |  |  |  +- org.apache.logging.log4j:log4j-web:jar:2.6.2:compile
+[INFO] |  |  |  +- com.tdunning:json:jar:1.8:compile
+[INFO] |  |  |  +- io.dropwizard.metrics:metrics-jvm:jar:3.1.0:compile
+[INFO] |  |  |  +- io.dropwizard.metrics:metrics-json:jar:3.1.0:compile
+[INFO] |  |  |  \- com.github.joshelser:dropwizard-metrics-hadoop-metrics2-reporter:jar:0.1.2:compile
+[INFO] |  |  +- org.apache.hive:hive-service-rpc:jar:2.3.6:compile
+[INFO] |  |  |  +- tomcat:jasper-compiler:jar:5.5.23:compile
+[INFO] |  |  |  |  +- javax.servlet:jsp-api:jar:2.0:compile
+[INFO] |  |  |  |  \- ant:ant:jar:1.6.5:compile
+[INFO] |  |  |  \- tomcat:jasper-runtime:jar:5.5.23:compile
+[INFO] |  |  |     \- javax.servlet:servlet-api:jar:2.4:compile
+[INFO] |  |  +- net.sf.opencsv:opencsv:jar:2.3:compile
+[INFO] |  |  \- org.apache.parquet:parquet-hadoop-bundle:jar:1.8.1:compile
+[INFO] |  +- org.apache.hive:hive-shims:jar:2.3.6:compile
+[INFO] |  |  +- org.apache.hive.shims:hive-shims-common:jar:2.3.6:compile
+[INFO] |  |  +- org.apache.hive.shims:hive-shims-0.23:jar:2.3.6:runtime
+[INFO] |  |  |  \- org.apache.hadoop:hadoop-yarn-server-resourcemanager:jar:2.7.2:runtime
+[INFO] |  |  |     +- com.google.inject.extensions:guice-servlet:jar:3.0:runtime
+[INFO] |  |  |     +- com.sun.jersey:jersey-json:jar:1.9:runtime
+[INFO] |  |  |     |  +- com.sun.xml.bind:jaxb-impl:jar:2.2.3-1:runtime
+[INFO] |  |  |     |  +- org.codehaus.jackson:jackson-jaxrs:jar:1.8.3:runtime
+[INFO] |  |  |     |  \- org.codehaus.jackson:jackson-xc:jar:1.8.3:runtime
+[INFO] |  |  |     +- com.sun.jersey.contribs:jersey-guice:jar:1.9:runtime
+[INFO] |  |  |     |  \- com.sun.jersey:jersey-server:jar:1.9:runtime
+[INFO] |  |  |     +- org.apache.hadoop:hadoop-yarn-api:jar:2.7.2:compile
+[INFO] |  |  |     +- javax.xml.bind:jaxb-api:jar:2.2.2:compile
+[INFO] |  |  |     |  \- javax.xml.stream:stax-api:jar:1.0-2:compile
+[INFO] |  |  |     +- org.codehaus.jettison:jettison:jar:1.1:runtime
+[INFO] |  |  |     +- com.sun.jersey:jersey-core:jar:1.9:runtime
+[INFO] |  |  |     +- com.sun.jersey:jersey-client:jar:1.9:runtime
+[INFO] |  |  |     +- org.apache.hadoop:hadoop-yarn-server-common:jar:2.7.2:runtime
+[INFO] |  |  |     +- org.apache.hadoop:hadoop-yarn-server-applicationhistoryservice:jar:2.7.2:runtime
+[INFO] |  |  |     +- org.apache.hadoop:hadoop-yarn-server-web-proxy:jar:2.7.2:runtime
+[INFO] |  |  |     |  \- org.mortbay.jetty:jetty:jar:6.1.26:runtime
+[INFO] |  |  |     +- org.fusesource.leveldbjni:leveldbjni-all:jar:1.8:runtime
+[INFO] |  |  |     \- org.apache.zookeeper:zookeeper:test-jar:tests:3.4.6:runtime
+[INFO] |  |  \- org.apache.hive.shims:hive-shims-scheduler:jar:2.3.6:runtime
+[INFO] |  +- javolution:javolution:jar:5.5.1:compile
+[INFO] |  +- com.google.protobuf:protobuf-java:jar:2.5.0:compile
+[INFO] |  +- org.apache.hbase:hbase-client:jar:1.1.1:compile
+[INFO] |  |  +- org.apache.hbase:hbase-annotations:jar:1.1.1:compile
+[INFO] |  |  |  \- jdk.tools:jdk.tools:jar:1.7:system
+[INFO] |  |  +- org.apache.hbase:hbase-common:jar:1.1.1:compile
+[INFO] |  |  |  \- org.mortbay.jetty:jetty-util:jar:6.1.26:compile
+[INFO] |  |  +- org.apache.hbase:hbase-protocol:jar:1.1.1:compile
+[INFO] |  |  +- commons-logging:commons-logging:jar:1.2:compile
+[INFO] |  |  +- io.netty:netty-all:jar:4.0.23.Final:compile
+[INFO] |  |  +- org.apache.htrace:htrace-core:jar:3.1.0-incubating:compile
+[INFO] |  |  +- org.codehaus.jackson:jackson-mapper-asl:jar:1.9.13:compile
+[INFO] |  |  +- org.jruby.jcodings:jcodings:jar:1.0.8:compile
+[INFO] |  |  +- org.jruby.joni:joni:jar:2.1.2:compile
+[INFO] |  |  +- org.apache.hadoop:hadoop-auth:jar:2.5.1:compile
+[INFO] |  |  |  \- org.apache.directory.server:apacheds-kerberos-codec:jar:2.0.0-M15:compile
+[INFO] |  |  |     +- org.apache.directory.server:apacheds-i18n:jar:2.0.0-M15:compile
+[INFO] |  |  |     +- org.apache.directory.api:api-asn1-api:jar:1.0.0-M20:compile
+[INFO] |  |  |     \- org.apache.directory.api:api-util:jar:1.0.0-M20:compile
+[INFO] |  |  +- org.apache.hadoop:hadoop-common:jar:2.5.1:compile
+[INFO] |  |  |  +- org.apache.hadoop:hadoop-annotations:jar:2.5.1:compile
+[INFO] |  |  |  +- xmlenc:xmlenc:jar:0.52:compile
+[INFO] |  |  |  +- commons-net:commons-net:jar:3.1:compile
+[INFO] |  |  |  +- commons-el:commons-el:jar:1.0:compile
+[INFO] |  |  |  +- commons-configuration:commons-configuration:jar:1.6:compile
+[INFO] |  |  |  |  +- commons-digester:commons-digester:jar:1.8:compile
+[INFO] |  |  |  |  |  \- commons-beanutils:commons-beanutils:jar:1.7.0:compile
+[INFO] |  |  |  |  \- commons-beanutils:commons-beanutils-core:jar:1.8.0:compile
+[INFO] |  |  |  \- com.jcraft:jsch:jar:0.1.42:compile
+[INFO] |  |  +- org.apache.hadoop:hadoop-mapreduce-client-core:jar:2.5.1:compile
+[INFO] |  |  |  \- org.apache.hadoop:hadoop-yarn-common:jar:2.5.1:compile
+[INFO] |  |  \- com.github.stephenc.findbugs:findbugs-annotations:jar:1.3.9-1:compile
+[INFO] |  +- com.jolbox:bonecp:jar:0.8.0.RELEASE:compile
+[INFO] |  +- commons-lang:commons-lang:jar:2.6:compile
+[INFO] |  +- org.apache.derby:derby:jar:10.10.2.0:compile
+[INFO] |  +- org.datanucleus:datanucleus-api-jdo:jar:4.2.4:compile
+[INFO] |  +- org.datanucleus:datanucleus-core:jar:4.1.17:compile
+[INFO] |  +- org.datanucleus:datanucleus-rdbms:jar:4.1.19:compile
+[INFO] |  +- commons-pool:commons-pool:jar:1.5.4:compile
+[INFO] |  +- commons-dbcp:commons-dbcp:jar:1.4:compile
+[INFO] |  +- javax.jdo:jdo-api:jar:3.0.1:compile
+[INFO] |  |  \- javax.transaction:jta:jar:1.1:compile
+[INFO] |  +- org.datanucleus:javax.jdo:jar:3.2.0-m3:compile
+[INFO] |  |  \- javax.transaction:transaction-api:jar:1.1:compile
+[INFO] |  +- org.antlr:antlr-runtime:jar:3.5.2:compile
+[INFO] |  +- co.cask.tephra:tephra-api:jar:0.6.0:compile
+[INFO] |  +- co.cask.tephra:tephra-core:jar:0.6.0:compile
+[INFO] |  |  +- com.google.inject:guice:jar:3.0:compile
+[INFO] |  |  |  +- javax.inject:javax.inject:jar:1:compile
+[INFO] |  |  |  \- aopalliance:aopalliance:jar:1.0:compile
+[INFO] |  |  +- com.google.inject.extensions:guice-assistedinject:jar:3.0:compile
+[INFO] |  |  +- it.unimi.dsi:fastutil:jar:6.5.6:compile
+[INFO] |  |  +- org.apache.twill:twill-common:jar:0.6.0-incubating:compile
+[INFO] |  |  +- org.apache.twill:twill-core:jar:0.6.0-incubating:compile
+[INFO] |  |  |  \- org.apache.twill:twill-api:jar:0.6.0-incubating:compile
+[INFO] |  |  +- org.apache.twill:twill-discovery-api:jar:0.6.0-incubating:compile
+[INFO] |  |  +- org.apache.twill:twill-discovery-core:jar:0.6.0-incubating:compile
+[INFO] |  |  \- org.apache.twill:twill-zookeeper:jar:0.6.0-incubating:compile
+[INFO] |  \- co.cask.tephra:tephra-hbase-compat-1.0:jar:0.6.0:compile
+[INFO] +- org.apache.hive:hive-exec:jar:2.3.6:compile
+[INFO] |  +- org.apache.hive:hive-vector-code-gen:jar:2.3.6:compile
+[INFO] |  |  \- org.apache.velocity:velocity:jar:1.5:compile
+[INFO] |  |     \- oro:oro:jar:2.0.8:compile
+[INFO] |  +- org.apache.hive:hive-llap-tez:jar:2.3.6:compile
+[INFO] |  |  \- org.apache.hive:hive-llap-client:jar:2.3.6:compile
+[INFO] |  |     \- org.apache.hive:hive-llap-common:jar:2.3.6:compile
+[INFO] |  +- commons-codec:commons-codec:jar:1.4:compile
+[INFO] |  +- commons-httpclient:commons-httpclient:jar:3.0.1:compile
+[INFO] |  +- commons-io:commons-io:jar:2.4:compile
+[INFO] |  +- org.apache.logging.log4j:log4j-1.2-api:jar:2.6.2:compile
+[INFO] |  |  +- org.apache.logging.log4j:log4j-api:jar:2.6.2:compile
+[INFO] |  |  \- org.apache.logging.log4j:log4j-core:jar:2.6.2:compile
+[INFO] |  +- org.apache.logging.log4j:log4j-slf4j-impl:jar:2.6.2:compile
+[INFO] |  +- org.antlr:ST4:jar:4.0.4:compile
+[INFO] |  +- org.apache.ant:ant:jar:1.9.1:compile
+[INFO] |  |  \- org.apache.ant:ant-launcher:jar:1.9.1:compile
+[INFO] |  +- org.apache.commons:commons-compress:jar:1.9:compile
+[INFO] |  +- org.apache.ivy:ivy:jar:2.4.0:compile
+[INFO] |  +- org.apache.zookeeper:zookeeper:jar:3.4.6:compile
+[INFO] |  |  \- jline:jline:jar:0.9.94:compile
+[INFO] |  +- org.apache.curator:curator-framework:jar:2.7.1:compile
+[INFO] |  |  \- org.apache.curator:curator-client:jar:2.7.1:compile
+[INFO] |  +- org.apache.curator:apache-curator:pom:2.7.1:compile
+[INFO] |  +- org.codehaus.groovy:groovy-all:jar:2.4.4:compile
+[INFO] |  +- org.apache.calcite:calcite-core:jar:1.10.0:compile
+[INFO] |  |  +- org.apache.calcite:calcite-linq4j:jar:1.10.0:compile
+[INFO] |  |  +- net.hydromatic:eigenbase-properties:jar:1.1.5:compile
+[INFO] |  |  +- org.codehaus.janino:commons-compiler:jar:2.7.6:compile
+[INFO] |  |  \- org.pentaho:pentaho-aggdesigner-algorithm:jar:5.1.5-jhyde:compile
+[INFO] |  +- org.apache.calcite:calcite-druid:jar:1.10.0:compile
+[INFO] |  +- org.apache.calcite.avatica:avatica:jar:1.8.0:compile
+[INFO] |  |  \- org.apache.calcite.avatica:avatica-metrics:jar:1.8.0:compile
+[INFO] |  \- stax:stax-api:jar:1.0.1:compile
+[INFO] +- org.apache.thrift:libfb303:jar:0.9.3:compile
+[INFO] +- org.apache.thrift:libthrift:jar:0.12.0:compile
+[INFO] |  +- org.apache.httpcomponents:httpclient:jar:4.5.6:compile
+[INFO] |  \- org.apache.httpcomponents:httpcore:jar:4.4.1:compile
+[INFO] +- mysql:mysql-connector-java:jar:8.0.18:compile
+[INFO] +- commons-cli:commons-cli:jar:1.3.1:compile
+[INFO] +- com.zaxxer:HikariCP:jar:2.6.1:compile
+[INFO] +- org.slf4j:slf4j-log4j12:jar:1.7.7:runtime
+[INFO] +- log4j:log4j:jar:1.2.17:runtime
+[INFO] +- org.scala-lang:scala-library:jar:2.11.12:compile
+[INFO] +- com.google.code.gson:gson:jar:2.8.2:compile
+[INFO] +- org.apache.flink:flink-avro-confluent-registry:jar:1.9.0:compile
+[INFO] |  \- org.apache.flink:flink-avro:jar:1.9.0:compile
+[INFO] +- org.roaringbitmap:RoaringBitmap:jar:0.8.1:compile
+[INFO] |  \- org.roaringbitmap:shims:jar:0.8.1:compile
+[INFO] +- de.tub.dima.scotty:flink-connector:jar:0.4:compile
+[INFO] |  +- de.tub.dima.scotty:core:jar:0.4:compile
+[INFO] |  +- de.tub.dima.scotty:slicing:jar:0.4:compile
+[INFO] |  |  \- org.jetbrains:annotations:jar:18.0.0:compile
+[INFO] |  \- de.tub.dima.scotty:state:jar:0.4:compile
+[INFO] +- org.drools:drools-compiler:jar:6.5.0.Final:compile
+[INFO] |  +- org.kie:kie-api:jar:6.5.0.Final:compile
+[INFO] |  +- org.kie:kie-internal:jar:6.5.0.Final:compile
+[INFO] |  +- org.eclipse.jdt.core.compiler:ecj:jar:4.4.2:compile
+[INFO] |  +- org.mvel:mvel2:jar:2.2.8.Final:compile
+[INFO] |  \- com.thoughtworks.xstream:xstream:jar:1.4.9:compile
+[INFO] |     +- xmlpull:xmlpull:jar:1.1.3.1:compile
+[INFO] |     \- xpp3:xpp3_min:jar:1.1.4c:compile
+[INFO] +- org.drools:drools-core:jar:6.5.0.Final:compile
+[INFO] +- com.alibaba:fastjson:jar:1.2.41:compile
+[INFO] +- org.apache.kafka:kafka-clients:jar:1.0.1:compile
+[INFO] |  +- org.lz4:lz4-java:jar:1.4:compile
+[INFO] |  \- org.xerial.snappy:snappy-java:jar:1.1.4:compile
+[INFO] +- io.confluent:kafka-avro-serializer:jar:4.0.0:compile
+[INFO] |  +- org.apache.avro:avro:jar:1.8.2:compile
+[INFO] |  |  +- org.codehaus.jackson:jackson-core-asl:jar:1.9.13:compile
+[INFO] |  |  +- com.thoughtworks.paranamer:paranamer:jar:2.7:compile
+[INFO] |  |  \- org.tukaani:xz:jar:1.5:compile
+[INFO] |  +- io.confluent:kafka-schema-registry-client:jar:4.0.0:compile
+[INFO] |  +- io.confluent:common-config:jar:4.0.0:compile
+[INFO] |  \- io.confluent:common-utils:jar:4.0.0:compile
+[INFO] |     \- com.101tec:zkclient:jar:0.10:compile
+[INFO] +- org.hbase:asynchbase:jar:1.8.2:compile
+[INFO] |  +- io.netty:netty:jar:3.9.4.Final:compile
+[INFO] |  +- com.stumbleupon:async:jar:1.4.0:compile
+[INFO] |  \- org.slf4j:log4j-over-slf4j:jar:1.7.7:runtime
+[INFO] +- com.google.guava:guava:jar:28.0-jre:compile
+[INFO] |  +- com.google.guava:failureaccess:jar:1.0.1:compile
+[INFO] |  +- com.google.guava:listenablefuture:jar:9999.0-empty-to-avoid-conflict-with-guava:compile
+[INFO] |  +- org.checkerframework:checker-qual:jar:2.8.1:compile
+[INFO] |  +- com.google.errorprone:error_prone_annotations:jar:2.3.2:compile
+[INFO] |  +- com.google.j2objc:j2objc-annotations:jar:1.3:compile
+[INFO] |  \- org.codehaus.mojo:animal-sniffer-annotations:jar:1.17:compile
+[INFO] +- org.apache.flink:flink-test-utils_2.11:jar:1.9.0:test
+[INFO] |  +- org.apache.flink:flink-test-utils-junit:jar:1.9.0:test
+[INFO] |  +- junit:junit:jar:4.12:compile
+[INFO] |  |  \- org.hamcrest:hamcrest-core:jar:1.3:compile
+[INFO] |  \- org.apache.curator:curator-test:jar:2.12.0:test
+[INFO] +- org.apache.flink:flink-runtime_2.11:jar:tests:1.9.0:test
+[INFO] |  +- org.apache.flink:flink-hadoop-fs:jar:1.9.0:compile
+[INFO] |  +- com.typesafe.akka:akka-actor_2.11:jar:2.5.21:compile
+[INFO] |  |  +- com.typesafe:config:jar:1.3.3:compile
+[INFO] |  |  \- org.scala-lang.modules:scala-java8-compat_2.11:jar:0.7.0:compile
+[INFO] |  +- com.typesafe.akka:akka-stream_2.11:jar:2.5.21:compile
+[INFO] |  |  +- org.reactivestreams:reactive-streams:jar:1.0.2:compile
+[INFO] |  |  \- com.typesafe:ssl-config-core_2.11:jar:0.3.7:compile
+[INFO] |  +- com.typesafe.akka:akka-protobuf_2.11:jar:2.5.21:compile
+[INFO] |  +- com.typesafe.akka:akka-slf4j_2.11:jar:2.5.21:compile
+[INFO] |  +- org.clapper:grizzled-slf4j_2.11:jar:1.3.2:compile
+[INFO] |  +- com.github.scopt:scopt_2.11:jar:3.5.0:compile
+[INFO] |  \- com.twitter:chill_2.11:jar:0.7.6:compile
+[INFO] |     \- com.twitter:chill-java:jar:0.7.6:compile
+[INFO] +- org.apache.flink:flink-streaming-java_2.11:jar:tests:1.9.0:test
+[INFO] +- org.mockito:mockito-all:jar:1.10.19:test
+[INFO] \- org.hamcrest:hamcrest:jar:2.2:test
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  27.253 s
+[INFO] Finished at: 2019-11-07T22:03:00+08:00
+[INFO] ------------------------------------------------------------------------
