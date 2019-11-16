@@ -4,16 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 import org.apache.flink.api.common.functions.MapFunction;
-import org.apache.flink.api.common.state.MapState;
-import org.apache.flink.api.common.state.MapStateDescriptor;
-import org.apache.flink.api.common.state.ValueState;
-import org.apache.flink.api.common.state.ValueStateDescriptor;
-import org.apache.flink.api.java.functions.KeySelector;
-import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.util.Collector;
 
@@ -30,12 +23,9 @@ public class FavouriteColour {
 //        DataStream<String> textStream = env.socketTextStream("localhost", 9999);
 
         DataStream<String> textStream = env.fromElements("Jack,red", "Rose,green", "Jack,yellow", "Bob,red", "Rose,yellow", "Bob,green");
-        DataStream<NameColour> nameColourStream = textStream.map(new MapFunction<String, NameColour>() {
-            @Override
-            public NameColour map(String value) throws Exception {
-                String[] parts = value.split(",");
-                return new NameColour(parts[0], parts[1]);
-            }
+        DataStream<NameColour> nameColourStream = textStream.map((MapFunction<String, NameColour>) value -> {
+            String[] parts = value.split(",");
+            return new NameColour(parts[0], parts[1]);
         });
 
 
