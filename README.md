@@ -66,3 +66,23 @@ CoGroupDemo
 ###
 [Flink时间系统系列之ProcessFunction 使用分析](https://mp.weixin.qq.com/s/cqbbxc0xLpSnyQS7C6Fg0Q)
 ProcessFunctionExample
+
+###
+PurgingTrigger使用
+WindowAnatomy
+http://blog.madhukaraphatak.com/introduction-to-flink-streaming-part-6/
+But most of the cases we want to clear the records once window evaluates, rather than keeping forever. In those situations we need to use purge trigger with count trigger.
+Purging trigger is a trigger which normally wraps the other triggers. Purging trigger is responsible for purging all the values which are passed to the trigger from the window once window evaluates.
+简言之，使用PurgingTrigger之后，状态不再累积，而是一次性的。PurgingTrigger通常需要配合其他Trigger使用。
+
+###
+ContinuousEventTimeTrigger使用，基于事件时间持续周期性地触发
+ContinuousEventTimeTriggerDemo
+
+###
+FavouriteColour & FavouriteColourTable
+分别用stream api和table api实现对favorite colour统计
+
+###
+StudentScoreExample
+使用ROW_NUMBER() OVER窗口进行统计 + TopN统计
