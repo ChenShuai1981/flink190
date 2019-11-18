@@ -68,9 +68,9 @@ CoGroupDemo
 ProcessFunctionExample
 
 ###
-PurgingTrigger使用
+[PurgingTrigger使用](http://blog.madhukaraphatak.com/introduction-to-flink-streaming-part-6/)
 WindowAnatomy
-http://blog.madhukaraphatak.com/introduction-to-flink-streaming-part-6/
+
 But most of the cases we want to clear the records once window evaluates, rather than keeping forever. In those situations we need to use purge trigger with count trigger.
 Purging trigger is a trigger which normally wraps the other triggers. Purging trigger is responsible for purging all the values which are passed to the trigger from the window once window evaluates.
 简言之，使用PurgingTrigger之后，状态不再累积，而是一次性的。PurgingTrigger通常需要配合其他Trigger使用。
@@ -86,3 +86,11 @@ FavouriteColour & FavouriteColourTable
 ###
 StudentScoreExample
 使用ROW_NUMBER() OVER窗口进行统计 + TopN统计
+
+###
+[flink exactly-once系列之StreamingFileSink分析](https://mp.weixin.qq.com/s/4EtkNns-KAzEqL3GRMRLAg)
+StreamingFileSinkExample
+
+###
+[flink自定义trigger-实现窗口随意输出](https://mp.weixin.qq.com/s/8wxiC1QLpCHvnWjTJGOhXw)
+KafkaSourceTriggerTest
