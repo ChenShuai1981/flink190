@@ -35,8 +35,8 @@ public class WindowTopNExample {
                 "orderId03,1573483408000,gdsId02,200,beijing",
                 "orderId03,1573483408000,gdsId03,300,beijing",
                 "orderId03,1573483408000,gdsId04,400,beijing",
-                "orderId07,1573483600000,gdsId01,600,beijing"
-//                "orderId07,1573483800000,gdsId02,500,beijing",
+                "orderId07,1573483600000,gdsId01,600,beijing",
+//                "orderId07,1573483610000,gdsId02,500,beijing",
 //                "orderId08,1573484200000,gdsId01,400,beijing",
 //                "orderId08,1573484500000,gdsId02,300,beijing"
         };
