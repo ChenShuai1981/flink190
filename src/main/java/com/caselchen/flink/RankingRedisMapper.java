@@ -29,10 +29,8 @@ public class RankingRedisMapper implements RedisMapper<Tuple2<Long, Long>> {
 
     @Override
     public Optional<String> getAdditionalKey(Tuple2<Long, Long> data) {
-        return Optional.of(
-                ZSET_NAME_PREFIX +
-                        new LocalDateTime(System.currentTimeMillis()).toString("yyyy-MM-dd") + ":" +
-                        "MERCHANDISE"
-        );
+        String key = ZSET_NAME_PREFIX + new LocalDateTime(System.currentTimeMillis()).toString("yyyy-MM-dd") + ":" + "MERCHANDISE";
+        System.out.println(key);
+        return Optional.of(key);
     }
 }

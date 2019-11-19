@@ -9,7 +9,7 @@ import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.util.Collector;
 
-public class OutputOrderGmvProcessFunc extends KeyedProcessFunction<Tuple, OrderAccumulator, Tuple2<Long, String>> {
+public class OutputOrderGmvProcessFunc extends KeyedProcessFunction<Long, OrderAccumulator, Tuple2<Long, String>> {
     private static final long serialVersionUID = 1L;
 
     private MapState<Long, OrderAccumulator> state;

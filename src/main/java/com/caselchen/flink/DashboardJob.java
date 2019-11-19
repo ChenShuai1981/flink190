@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.common.typeinfo.TypeHint;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
+import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.api.java.tuple.Tuple;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.CheckpointingMode;
@@ -40,6 +41,12 @@ import java.util.Properties;
  *     "isNewOrder": 0,
  *     "timestamp": 1572963672217
  * }
+ *
+ * 获取各个站点site的GMV统计信息：
+ * HGETALL RT:DASHBOARD:GMV:2019-11-19:SITES
+ *
+ * 获取商品TopN统计信息：
+ * ZREVRANGEBYSCORE RT:DASHBOARD:RANKING:2019-11-19:MERCHANDISE +inf -inf WITHSCORES
  */
 public class DashboardJob {
     public static void main(String[] args) throws Exception {
@@ -82,7 +89,7 @@ public class DashboardJob {
 
         // <站点id,统计json>
         DataStream<Tuple2<Long, String>> siteResultStream = siteAggStream
-                .keyBy(0)
+                .keyBy((KeySelector<OrderAccumulator, Long>) value -> value.getSiteId())
                 .process(new OutputOrderGmvProcessFunc(), TypeInformation.of(new TypeHint<Tuple2<Long, String>>() {}))
                 .name("process_site_gmv_changed").uid("process_site_gmv_changed");
 
@@ -105,7 +112,7 @@ public class DashboardJob {
                 .name("aggregate_merch_sales").uid("aggregate_merch_sales")
                 .returns(TypeInformation.of(new TypeHint<Tuple2<Long, Long>>() { }));
 
-        // 商品Top N
+        // 商品Top N写入 redis
         merchandiseRankStream
                 .addSink(new RedisSink<>(jedisPoolConfig, new RankingRedisMapper()))
                 .name("sink_redis_merchandise_rank").uid("sink_redis_merchandise_rank")

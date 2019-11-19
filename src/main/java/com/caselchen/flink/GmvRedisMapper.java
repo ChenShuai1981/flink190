@@ -29,10 +29,8 @@ public class GmvRedisMapper implements RedisMapper<Tuple2<Long, String>> {
 
     @Override
     public Optional<String> getAdditionalKey(Tuple2<Long, String> data) {
-        return Optional.of(
-                HASH_NAME_PREFIX +
-                        new LocalDateTime(System.currentTimeMillis()).toString("yyyy-MM-dd") +
-                        "SITES"
-        );
+        String key = HASH_NAME_PREFIX + new LocalDateTime(System.currentTimeMillis()).toString("yyyy-MM-dd") + ":" + "SITES";
+        System.out.println(key);
+        return Optional.of(key);
     }
 }
