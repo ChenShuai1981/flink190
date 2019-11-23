@@ -5,27 +5,26 @@ import lombok.Data;
 import lombok.ToString;
 import org.apache.flink.api.common.typeinfo.BasicTypeInfo;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
-import org.apache.flink.api.java.DataSet;
-import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.io.jdbc.JDBCInputFormat;
-import org.apache.flink.api.java.operators.DataSource;
+import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.typeutils.RowTypeInfo;
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.Table;
-import org.apache.flink.table.api.java.BatchTableEnvironment;
+import org.apache.flink.table.api.java.StreamTableEnvironment;
 import org.apache.flink.types.Row;
 
 import java.io.Serializable;
 
 public class OrientdbSourceDemo {
     public static void main(String[] args) throws Exception {
-        ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
+        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+        env.setParallelism(1);
 
-        TypeInformation[] fieldTypes =new TypeInformation[]{
+        RowTypeInfo rowTypeInfo =new RowTypeInfo(new TypeInformation[]{
                 BasicTypeInfo.LONG_TYPE_INFO,
                 BasicTypeInfo.STRING_TYPE_INFO
-        };
-
-        RowTypeInfo rowTypeInfo =new RowTypeInfo(fieldTypes);
+        });
 
         JDBCInputFormat jdbcInput = JDBCInputFormat.buildJDBCInputFormat()
                 .setDrivername("com.orientechnologies.orient.jdbc.OrientJdbcDriver")
@@ -36,13 +35,20 @@ public class OrientdbSourceDemo {
                 .setRowTypeInfo(rowTypeInfo)
                 .finish();
 
-        DataSource<Row> ds = env.createInput(jdbcInput);
-        BatchTableEnvironment tableEnv = BatchTableEnvironment.create(env);
-        tableEnv.registerDataSet("Countries", ds, "Id,Name");
-        Table query = tableEnv.sqlQuery("select * from Countries");
+        DataStream<Row> ds = env.createInput(jdbcInput, rowTypeInfo);
 
-        DataSet result = tableEnv.toDataSet(query, Row.class);
+        StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
+        tableEnv.registerDataStream("Countries", ds, "id,name");
+        Table query = tableEnv.sqlQuery("select substring(name,1,1), count(*) from Countries group by substring(name,1,1)");
+
+        System.out.println();
+        System.out.println(" === Result === ");
+        System.out.println();
+
+        DataStream<Tuple2<Boolean, Row>> result = tableEnv.toRetractStream(query, Row.class);
         result.print();
+
+        env.execute("OrientdbSourceDemo");
     }
 
     @Data
