@@ -2,7 +2,6 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <option name="BUILD_PROCESS_HEAP_SIZE" value="1024" />
-    <o name="BUILD_PROCESS_ADDITIONAL_VM_OPTIONS" value="-Xss4m" />
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -11,9 +10,6 @@
         <module name="flink190" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="flink190" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_STRING" value="-parameters" />
