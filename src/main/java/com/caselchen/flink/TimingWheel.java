@@ -1,6 +1,9 @@
 package com.caselchen.flink;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Collectors;
 
 /**
  * A timing-wheel optimized for approximated I/O timeout scheduling.<br>
@@ -88,6 +92,20 @@ public class TimingWheel<E> {
         wheel.trimToSize();
 
         workerThread = new Thread(new TickWorker(), "Timing-Wheel");
+    }
+
+    public List<E> elements() {
+        return wheel.stream().flatMap(slot -> slot.elements().stream()).collect(Collectors.toList());
+    }
+
+    public long size() {
+        long size = 0;
+        for (Slot slot : wheel) {
+            if (CollectionUtils.isNotEmpty(slot.elements())) {
+                size += 1;
+            }
+        }
+        return size;
     }
 
     // ~ -------------------------------------------------------------------------------------------------------------

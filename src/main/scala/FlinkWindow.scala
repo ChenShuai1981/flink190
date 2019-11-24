@@ -7,6 +7,9 @@ import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTime
 import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.util.Collector
 
+/**
+  * 三流join
+  */
 object FlinkWindow {
 
   class MyTimeTimestampsAndWatermarks extends AssignerWithPeriodicWatermarks[(String,Int)] with Serializable{
