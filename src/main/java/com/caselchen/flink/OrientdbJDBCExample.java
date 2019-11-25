@@ -15,25 +15,25 @@ public class OrientdbJDBCExample {
 
         Properties info = new Properties();
         info.put("user", "root");
-        info.put("password", "admin");
+        info.put("password", "changeit");
         info.put("db.usePool", "true"); // USE THE POOL
         info.put("db.pool.min", "3");   // MINIMUM POOL SIZE
 
         Connection conn = DriverManager.getConnection("jdbc:orient:remote:localhost/demodb", info);
 
-//        Statement stmt = conn.createStatement();
-//        ResultSet rs = stmt.executeQuery("SELECT Id, Name FROM Countries");
-//        while(rs.next()) {
-//            Long id = rs.getLong("Id");
-//            String name = rs.getString("Name");
-//            System.out.println(new Countries(id, name));
-//        }
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT Id, Name FROM Countries");
+        while(rs.next()) {
+            Long id = rs.getLong("Id");
+            String name = rs.getString("Name");
+            System.out.println(new Countries(id, name));
+        }
 
 //        PreparedStatement ps = conn.prepareStatement("INSERT INTO Countries (Id, Name) VALUES (?, ?)");
-        PreparedStatement ps = conn.prepareStatement("UPDATE Countries SET Name = ? UPSERT WHERE Id = ?");
-        ps.setObject(1, "WEB");
-        ps.setObject(2, 10001L);
-        ps.execute();
+//        PreparedStatement ps = conn.prepareStatement("UPDATE Countries SET Name = ? UPSERT WHERE Id = ?");
+//        ps.setObject(1, "WEB");
+//        ps.setObject(2, 10001L);
+//        ps.execute();
 
 //        ps.addBatch();
 //
@@ -44,10 +44,10 @@ public class OrientdbJDBCExample {
 //        int[] counts = ps.executeBatch();
         conn.commit();
         System.out.println("Done");
-        ps.close();
+//        ps.close();
 
-//        rs.close();
-//        stmt.close();
+        rs.close();
+        stmt.close();
         conn.close();
     }
 
