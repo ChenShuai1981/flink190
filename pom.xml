@@ -58,6 +58,10 @@ under the License.
             <id>confluent</id>
             <url>http://packages.confluent.io/maven/</url>
         </repository>
+        <repository>
+            <id>clojars</id>
+            <url>http://clojars.org/repo/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -426,6 +430,12 @@ under the License.
             <version>4.0.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.haoch</groupId>
+            <artifactId>flink-siddhi_2.11</artifactId>
+            <version>0.2.2-SNAPSHOT</version>
+        </dependency>
+
         <!-- test -->
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -461,6 +471,7 @@ under the License.
         </dependency>
 
     </dependencies>
+
 
     <build>
         <plugins>
