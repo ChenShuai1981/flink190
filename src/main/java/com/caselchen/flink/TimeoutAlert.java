@@ -10,10 +10,12 @@ import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.co.CoProcessFunction;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 import org.apache.flink.util.Collector;
+import org.apache.flink.util.OutputTag;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 
 import lombok.AllArgsConstructor;
@@ -30,7 +32,9 @@ public class TimeoutAlert {
         kafkaConfig.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
         kafkaConfig.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "test");
 
-        DataStream<Order> orderStream = env.addSource(new FlinkKafkaConsumer<String>("order", new SimpleStringSchema(), kafkaConfig)).map(new MapFunction<String, Order>() {
+        OutputTag<TimeoutOrder> timeout = new OutputTag<TimeoutOrder>("timeout"){};
+
+        DataStream<Order> orderStream = env.addSource(new FlinkKafkaConsumer<>("order", new SimpleStringSchema(), kafkaConfig)).map(new MapFunction<String, Order>() {
             @Override
             public Order map(String value) throws Exception {
                 String[] parts = value.split(",");
@@ -50,9 +54,9 @@ public class TimeoutAlert {
         });
 
         // 订单产生后的一段时间内仍未产生运单的要进行alert
-        orderStream.connect(shipmentStream)
+        SingleOutputStreamOperator<OnTimeOrder> ontimeOrderStream = orderStream.connect(shipmentStream)
                 .keyBy((KeySelector<Order, String>) order -> order.getId(), (KeySelector<Shipment, String>) shipment -> shipment.getOrderId())
-                .process(new CoProcessFunction<Order, Shipment, Order>() {
+                .process(new CoProcessFunction<Order, Shipment, OnTimeOrder>() {
                     // 返回超时未运的Order
 
                     private MapState<String /* orderId */, Order> orderState = null;
@@ -67,25 +71,28 @@ public class TimeoutAlert {
                     }
 
                     @Override
-                    public void processElement1(Order order, Context ctx, Collector<Order> out) throws Exception {
+                    public void processElement1(Order order, Context ctx, Collector<OnTimeOrder> out) throws Exception {
                         String orderId = order.getId();
                         if (!orderState.contains(orderId)) {
                             orderState.put(orderId, order);
                             long timerTimestamp = ctx.timerService().currentProcessingTime() + order.getExpireMinutes() * 60 * 1000L;
                             ctx.timerService().registerProcessingTimeTimer(timerTimestamp);
-                            System.out.println("registerProcessingTimeTimer -> " + timerTimestamp + "," + orderId);
+//                            System.out.println("registerProcessingTimeTimer -> " + timerTimestamp + "," + orderId);
                             timerState.put(timerTimestamp, orderId);
                             orderTimerState.put(orderId, timerTimestamp);
                         }
                     }
 
                     @Override
-                    public void processElement2(Shipment shipment, Context ctx, Collector<Order> out) throws Exception {
+                    public void processElement2(Shipment shipment, Context ctx, Collector<OnTimeOrder> out) throws Exception {
                         String orderId = shipment.getOrderId();
                         if (orderState.contains(orderId)) {
+                            OnTimeOrder onTimeOrder = new OnTimeOrder(orderId);
+                            out.collect(onTimeOrder);
+
                             long timerTimestamp = orderTimerState.get(orderId);
                             ctx.timerService().deleteProcessingTimeTimer(timerTimestamp);
-                            System.out.println("deleteProcessingTimeTimer -> " + timerTimestamp + "," + orderId);
+//                            System.out.println("deleteProcessingTimeTimer -> " + timerTimestamp + "," + orderId);
                             timerState.remove(timerTimestamp);
                             orderTimerState.remove(orderId);
                             orderState.remove(orderId);
@@ -93,17 +100,26 @@ public class TimeoutAlert {
                     }
 
                     @Override
-                    public void onTimer(long timestamp, OnTimerContext ctx, Collector<Order> out) throws Exception {
+                    public void onTimer(long timestamp, OnTimerContext ctx, Collector<OnTimeOrder> out) throws Exception {
                         String orderId = timerState.get(timestamp);
-                        System.err.println("onTimer -> " + timestamp + "," + orderId);
-                        Order expiredOrder = orderState.get(orderId);
-                        out.collect(expiredOrder);
+//                        System.err.println("onTimer -> " + timestamp + "," + orderId);
+                        TimeoutOrder timeoutOrder = new TimeoutOrder(orderId);
                         orderState.remove(orderId);
                         timerState.remove(timestamp);
                         orderTimerState.remove(orderId);
+
+                        ctx.output(timeout, timeoutOrder);
                     }
 
                 });
+
+        DataStream<TimeoutOrder> timeoutOrderStream = ((SingleOutputStreamOperator<OnTimeOrder>) ontimeOrderStream).getSideOutput(timeout);
+
+        // sink OnTimeOrders
+        ontimeOrderStream.print();
+
+        // sink TimeoutOrders
+        timeoutOrderStream.print();
 
         env.execute("TimeoutAlert");
     }
@@ -119,6 +135,18 @@ public class TimeoutAlert {
     @AllArgsConstructor
     static class Shipment {
         private String orderId;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class OnTimeOrder {
+        private String id;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class TimeoutOrder {
+        private String id;
     }
 
 }
