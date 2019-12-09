@@ -1,0 +1,14 @@
+{
+	"namespace": "com.caselchen.flink",
+	"type": "record",
+	"name": "Prti",
+	"fields": [{
+			"name": "passingTime",
+			"type": "string"
+		},
+		{
+			"name": "plateNo",
+			"type": "string"
+		}
+	]
+}
