@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Flink自定义StreamOperator
+ * 案例：假设我们现在需要实现一个通用的定时、定量的输出的StreamOperator。
  * 定时输出算子抽象类
  * @param <T>
  */
