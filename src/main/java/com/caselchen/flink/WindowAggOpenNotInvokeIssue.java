@@ -15,7 +15,11 @@ import org.apache.flink.table.descriptors.Rowtime;
 import org.apache.flink.table.descriptors.Schema;
 import org.apache.flink.types.Row;
 
-public class ComputeUVDay {
+/**
+ * flink table窗口聚合的open函数未调用的bug分析
+ * https://mp.weixin.qq.com/s/GRt_nnahIh7wmQvTMYIMfg
+ */
+public class WindowAggOpenNotInvokeIssue {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
@@ -24,6 +28,9 @@ public class ComputeUVDay {
         tableConfig.setIdleStateRetentionTime(Time.minutes(10),Time.minutes(15));
 
         tEnv.registerFunction("DateUtil",new DateUtil());
+        tEnv.registerFunction("WeightedAvg",new WeightedAvg());
+
+        // 示例数据：{"eventtime": "2019-12-17T11:11:29.555Z", "fruit": "orange", "number": 45}
         tEnv.connect(
                 new Kafka()
                         .version("universal")
@@ -52,15 +59,11 @@ public class ComputeUVDay {
                 .inAppendMode()
                 .registerTableSource("source");
 
-//        Table sourceTbl = tEnv.scan("source");
-//        sourceTbl.printSchema();
-//        tEnv.toAppendStream(sourceTbl, Row.class).print();
+        //对应场景一，生成GroupAggProcessFunction，带open方法
+        Table table = tEnv.sqlQuery("select fruit, DateUtil(rowtime,'yyyyMMddHH'), WeightedAvg(number, number) from source group by fruit, DateUtil(rowtime,'yyyyMMddHH')");
 
-        // 計算天級別的uv
-//        Table table = tEnv.sqlQuery("select  DateUtil(rowtime),count(distinct fruit) from source group by DateUtil(rowtime)");
-
-        // 计算小时级别uv
-        Table table = tEnv.sqlQuery("select  DateUtil(rowtime,'yyyyMMddHH'),count(distinct fruit) from source group by DateUtil(rowtime,'yyyyMMddHH')");
+        //对应场景二，生成AggregateFunction，不带open方法
+//        Table table = tEnv.sqlQuery("select fruit, WeightedAvg(number,number), TUMBLE_END(rowtime, INTERVAL '5' SECOND) from source group by fruit,TUMBLE(rowtime, INTERVAL '5' SECOND)");
 
         tEnv.toRetractStream(table, Row.class).addSink(new SinkFunction<Tuple2<Boolean, Row>>() {
             @Override
@@ -68,8 +71,7 @@ public class ComputeUVDay {
                 System.out.println(value.f1.toString());
             }
         });
-//
-//        System.out.println(env.getExecutionPlan());
-        env.execute("ComputeUVDay");
+
+        env.execute("WindowAggOpenNotInvokeIssue");
     }
 }

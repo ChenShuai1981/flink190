@@ -110,3 +110,14 @@ IntervalJoinExample
 ###
 订单超时未运发出警告
 TimeoutAlert
+
+###
+[Flink实践|Flink Window的5个使用小技巧]（https://mp.weixin.qq.com/s/Pmnc1uV-stTZ5LLQhSupcw）
+MapStateDedup
+WindowDedup
+DailyWindowContinuousTrigger
+WindowAggregationDiff
+RegularTriggerWindow
+
+`不过需要注意的是，如果同时指定了Evictor的话，那么即使使用 ReduceFunction/AggregateFunction/FoldFunction，Window也会缓存所有数据，以提供给Evictor进行过滤，因此要慎重使用。`
+
