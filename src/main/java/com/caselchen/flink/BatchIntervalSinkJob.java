@@ -7,6 +7,7 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import java.util.List;
 
 /**
+ * https://mp.weixin.qq.com/s/a0g5elyCBE1RT2Vfsnhqnw
  * 定时输出
  */
 public class BatchIntervalSinkJob {

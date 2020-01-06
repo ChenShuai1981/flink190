@@ -13,7 +13,7 @@ public class ATMTrans implements Serializable {
     private String transaction_id;
     private int amount;
     private String atm;
-    private String lat;
-    private String lon;
+    private Double lat;
+    private Double lon;
     private Timestamp ts;
 }
