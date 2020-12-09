@@ -413,7 +413,7 @@ under the License.
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy</artifactId>
-            <version>2.4.7</version>
+            <version>2.4.21</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
@@ -423,7 +423,7 @@ under the License.
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy</artifactId>
-            <version>2.4.7</version>
+            <version>2.4.21</version>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
