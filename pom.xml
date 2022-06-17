@@ -39,7 +39,7 @@ under the License.
         <avro-protocol.version>3.7.2-SNAPSHOT</avro-protocol.version>
         <avro.version>1.8.2</avro.version>
         <confluent.version>4.0.0</confluent.version>
-        <drools.version>6.5.0.Final</drools.version>
+        <drools.version>7.60.0.Final</drools.version>
         <siddhi.version>5.1.2</siddhi.version>
     </properties>
 
